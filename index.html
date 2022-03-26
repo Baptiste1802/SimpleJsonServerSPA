@@ -23,14 +23,78 @@
 
     </div>
 
+    <div class="container">
+        <header>
+            <div class="d-flex justify-content-center align-items-center">
+                <p id="cityName" class="display-4">OpenMeteo</p>
+                <img src="http://openweathermap.org/img/wn/02d@2x.png" alt="weather icon" id="weatherIcon">
+            </div>
+        </header>
+        <div>
+            <div class="d-flex justify-content-center">
+                <p id="temp" class="display-1">27</p>
+                <p class="display-6 pt-2">°C</p>
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+                <p class="display-6 text-secondary" id="description">dégagé</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="card w-50" >
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <p class="lead text-secondary">Ressentie</p>
+                                    <p class="h5" id="feelsLike">10°C</p>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="lead text-secondary">Pression</p>
+                                    <p class="h5" id="pressure">66%<p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <p class="lead text-secondary m">Humidité</p>
+                                    <p class="h5" id="humidity">62%</p>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="lead text-secondary m">Nuageux</p>
+                                    <p class="h5" id="clouds">0%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
 
         let meteo = null;
+        
+        async function updateMeteo(cityName){
+            meteo = new Meteo(cityName);
+            const meteoData = await fetchMeteo(cityName);
+            const forecastsData = await fetchForecasts(cityName);
+            meteo.jsonToMeteo(meteoData);
+            meteo.jsonToForecasts(forecastsData);
+            updateHTML();
+        }
+
+        function updateHTML(){
+            document.getElementById("cityName").innerText = meteo.getCity();
+            document.getElementById("weatherIcon").src = meteo.getIcon();
+            document.getElementById("temp").innerText = Math.floor(meteo.getTemp());
+            document.getElementById("description").innerText = meteo.getDescription();
+            document.getElementById("feelsLike").innerText = meteo.getFeelsLike().toFixed(1) + "°C";
+            document.getElementById("humidity").innerText = meteo.getHumidity() + "%";
+            document.getElementById("pressure").innerText = meteo.getPressure()  + "mbar";
+            document.getElementById("clouds").innerText = meteo.getClouds() + "%";
+        }
 
         document.getElementById("fetchMeteo").onclick = async function(){
-            let data = await fetchMeteoForecasts(document.getElementById("city").value);
-            meteo = jsonToMeteo(data["meteo"]);
-            meteo.jsonToForecasts(data["forecasts"]);
+            await updateMeteo(document.getElementById("city").value);
             console.log(meteo);
         }
 
