@@ -61,23 +61,7 @@
     </div>
 
     <script>
-        let token = "3c3ba4897ef01b53f6e78abe6cb19744";
-        let url = "https://api.openweathermap.org/data/2.5/weather";
-        let inputVille = document.getElementById("ville");
-        let textTemp = document.getElementById("temp");
-        
-        async function fetchMeteo(){
-            const response = await fetch(`${url}?q=${inputVille.value}&appid=${token}&units=metric&lang=fr`);
-            if (response.ok){
-                const data = await response.json();
-                console.log(data)
-                textTemp.innerHTML = data["main"]["temp"]+"°C";
-            }
-            else{
-                const data = await response.json();
-                console.error(data["message"]);
-            }
-        }
+
     </script>
 
     <!-- Jquery -->
