@@ -196,6 +196,7 @@ class Favoris{
         let id = document.createElement("p");
         id.setAttribute("id", this.city + "Id");
         id.textContent = this.id;
+        id.hidden = true;
 
         let divDesc = document.createElement("div");
         classes = ["col-10" ,"mb-1", "small"]
@@ -203,9 +204,11 @@ class Favoris{
         divDesc.textContent = this.description;
 
         divTitle.appendChild(city);
+        divDesc.ap
 
         a.appendChild(divTitle);
         a.appendChild(divDesc)
+        a.appendChild(id);
 
         sideBar.appendChild(a);
     }
