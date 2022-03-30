@@ -29,34 +29,7 @@
     </nav>
 
     <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
-        <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-            <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-            <span class="fs-5 fw-semibold">Villes favorites</span>
-        </a>
-        <div class="list-group list-group-flush border-bottom scrollarea">
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-            <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">Paris</strong>
-                <!-- <small>Wed</small> -->
-            </div>
-            <div class="col-10 mb-1 small">Capitale de la France, Tour Eiffel tu coco</div>
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
-            <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">Londres</strong>
-                <!-- <small>Wed</small> -->
-            </div>
-            <div class="col-10 mb-1 small">Capitale de l'Angleterre, GOSH tu coco</div>
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-            <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">Madrid</strong>
-                <!-- <small>Wed</small> -->
-            </div>
-            <div class="col-10 mb-1 small">Capitale de l'Espagne, paëlla tu coco</div>
-            </a>
+        <div class="list-group list-group-flush border-bottom scrollarea" id = "sideBarItems">
         </div>
     </div>
 
@@ -138,14 +111,13 @@
         }
 
         document.getElementById("testAdd").onclick = async function(){
-            await addNewFav(meteo.toFavoris());
+            await addNewFav(meteo);
         }
 
         document.getElementById("testGet").onclick = async function(){
             await getFavoris();
         }
     </script>
-
     <!-- Jquery -->
     
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->

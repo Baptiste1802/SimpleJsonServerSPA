@@ -1,4 +1,4 @@
-async function addNewFav(favoris){
+async function addNewFav(meteo){
             
     const settings = {
         method : "POST",
@@ -6,7 +6,7 @@ async function addNewFav(favoris){
             "Accept": "application/json",
             "Content-Type" : "application/json",
         },
-        body : favoris.toJson()
+        body : meteo.toJson()
     };
 
     const response = await fetch("http://localhost:3000/favoris", settings);
@@ -34,7 +34,10 @@ async function getFavoris(){
     const response = await fetch("http://localhost:3000/favoris",settings);
     if(response.ok){
         const data = await response.json();
-        console.log(data);
+        for (json of data){
+            let favoris = new Favoris(json["city"], json["description"], json["id"]);
+            favoris.addToSideBar("sideBarItems", "sideBarItemTemplate");
+        }
     }
     else{
         const data = await response.json();

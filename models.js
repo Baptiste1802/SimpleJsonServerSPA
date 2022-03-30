@@ -107,6 +107,14 @@ class Meteo {
     toFavoris(){
         return new Favoris(this.city);
     }
+
+    toJson(){
+        let object = {
+            "city" : this.city,
+            "description" : ""
+        };
+        return JSON.stringify(object);
+    }
 }
 
 class Forecast{
@@ -143,9 +151,22 @@ class Forecast{
 
 class Favoris{
 
-    constructor(city){
+    constructor(city, description, id){
         this.city = city;
-        this.description = "";
+        this.description = description;
+        this.id = id;
+    }
+
+    getCity(){
+        return this.city;
+    }
+
+    getDescription(){
+        return this.description;
+    }
+
+    getId(){
+        return this.id;
     }
 
     toJson(){
@@ -155,4 +176,49 @@ class Favoris{
         };
         return JSON.stringify(object);
     }
+
+    addToSideBar(sideBarId){
+        let sideBar = document.getElementById(sideBarId);
+
+        let a = document.createElement("a");
+        a.setAttribute("id", this.city);
+        a.setAttribute('href', '#');
+        let classes = ["list-group-item", "list-group-item-action", "py-3", "lh-tight"];
+        a.classList.add(...classes);
+
+        let divTitle = document.createElement("div");
+        classes = ["d-flex", "w-100", "align-items-center", "justify-content-between"];
+        divTitle.classList.add(...classes);
+
+        let city = document.createElement("strong");
+        city.textContent = this.city;
+        
+        let id = document.createElement("p");
+        id.setAttribute("id", this.city + "Id");
+        id.textContent = this.id;
+
+        let divDesc = document.createElement("div");
+        classes = ["col-10" ,"mb-1", "small"]
+        divDesc.classList.add(...classes);
+        divDesc.textContent = this.description;
+
+        divTitle.appendChild(city);
+
+        a.appendChild(divTitle);
+        a.appendChild(divDesc)
+
+        sideBar.appendChild(a);
+    }
+
+
+    // <template id = "sideBarItemTemplate">
+        // <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+        //     <div class="d-flex w-100 align-items-center justify-content-between">
+        //         <strong class="mb-1">Paris</strong>
+        //         <!-- <small>Wed</small> -->
+        //     </div>
+        //     <div class="col-10 mb-1 small">Capitale de la France, Tour Eiffel tu coco</div>
+        // </a>
+    // </template>
+
 }
