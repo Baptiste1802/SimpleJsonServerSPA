@@ -12,28 +12,76 @@
 </head>
 <body>
 
-    <div class="container mt-3 mb-3">
-
-        <div class="mb-3">
-            <label for="city" class="form-label">Indiquez une ville</label>
-            <input type="text" class="form-control" id="city">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mt-2" aria-label="Eleventh navbar example">
+        <div class="container-fluid ml-2">
+            <a class="navbar-brand h1">Open Meteo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div style="margin-right: 20px" class="collapse navbar-collapse position-absolute end-0" id="navbarsExample09">
+                <form class="d-flex">
+                    <input style="margin-right: 7px" class="form-control" type="text" placeholder="Indiquez une ville" aria-label="Search" id="ville">
+                    <button type="button" class="btn btn-primary" onclick="fetchMeteo()">Rechercher</button>
+                </form>
+            </div>
         </div>
+    </nav>
 
-        <button type="button" class="btn btn-primary mb-3" id="fetchMeteo">Rechercher</button>
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+        <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+            <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-5 fw-semibold">Villes favorites</span>
+        </a>
+        <div class="list-group list-group-flush border-bottom scrollarea">
+            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+                <strong class="mb-1">Paris</strong>
+                <!-- <small>Wed</small> -->
+            </div>
+            <div class="col-10 mb-1 small">Capitale de la France, Tour Eiffel tu coco</div>
+            </a>
 
+            <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+                <strong class="mb-1">Londres</strong>
+                <!-- <small>Wed</small> -->
+            </div>
+            <div class="col-10 mb-1 small">Capitale de l'Angleterre, GOSH tu coco</div>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+                <strong class="mb-1">Madrid</strong>
+                <!-- <small>Wed</small> -->
+            </div>
+            <div class="col-10 mb-1 small">Capitale de l'Espagne, paëlla tu coco</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-3 mb-3">
+        <p>Temperature : <span id="temp"></span></p>
     </div>
 
     <script>
-
-        let meteo = null;
-
-        document.getElementById("fetchMeteo").onclick = async function(){
-            let data = await fetchMeteoForecasts(document.getElementById("city").value);
-            meteo = jsonToMeteo(data["meteo"]);
-            meteo.jsonToForecasts(data["forecasts"]);
-            console.log(meteo);
+        let token = "3c3ba4897ef01b53f6e78abe6cb19744";
+        let url = "https://api.openweathermap.org/data/2.5/weather";
+        let inputVille = document.getElementById("ville");
+        let textTemp = document.getElementById("temp");
+        
+        async function fetchMeteo(){
+            const response = await fetch(`${url}?q=${inputVille.value}&appid=${token}&units=metric&lang=fr`);
+            if (response.ok){
+                const data = await response.json();
+                console.log(data)
+                textTemp.innerHTML = data["main"]["temp"]+"°C";
+            }
+            else{
+                const data = await response.json();
+                console.error(data["message"]);
+            }
         }
-
     </script>
 
     <!-- Jquery -->
