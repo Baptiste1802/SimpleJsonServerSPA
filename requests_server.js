@@ -19,3 +19,25 @@ async function addNewFav(favoris){
         console.error(data["message"]);
     }
 }
+
+
+async function getFavoris(){
+
+    const settings = {
+        method : "GET",
+        headers : {
+            "Accept" : "application/json",
+            "Content-Type" : "application/json",
+        },
+    };
+
+    const response = await fetch("http://localhost:3000/favoris",settings);
+    if(response.ok){
+        const data = await response.json();
+        console.log(data);
+    }
+    else{
+        const data = await response.json();
+        console.log(data["message"]);
+    }
+}
