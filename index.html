@@ -83,6 +83,8 @@
 
     <button type="button" id="testAdd" class="btn btn-secondary">TestAdd</button>
     <button type="button" id="testGet" class="btn btn-secondary">TestGet</button>
+    <button type="button" id="testGetFav" class="btn btn-secondary">TestGetFav</button>
+    <button type="button" id="suppFav" class="btn btn-secondary">SuppFav</button>
     <script>
 
         let meteo = null;
@@ -117,9 +119,16 @@
         }
 
         document.getElementById("testGet").onclick = async function(){
-            await getFavoris();
+            await getAllFavoris();
         }
 
+        document.getElementById("search").onclick = async function(){
+            await searchFav(document.getElementById("searchValue").value);
+        }
+
+        document.getElementById("testGetFav").onclick = async function(){
+            await getFavoris("2");
+        }
     </script>
     <!-- Jquery -->
     
