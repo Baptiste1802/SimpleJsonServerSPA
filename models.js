@@ -77,6 +77,20 @@ class Meteo {
         this.pressure = json["main"]["pressure"];
     }
 
+    getDays(){
+        
+        let days = Object.keys(this.forecasts);
+        let current_day = this.date.getDate();
+        days.sort(
+            function(a, b){
+                a < current_day ? a += 31 : a;
+                b < current_day ? b += 31 : b; 
+                return a - b;
+            }
+        )
+        return days;
+    }
+
     /**
      * retrieve and add forecasts from json data
      * @param {*} json 
@@ -87,8 +101,7 @@ class Meteo {
         for (let day of json["list"]){
             let date = new Date(day["dt"] * 1000);
             this.addForecast(date, day["main"]["temp"], day["main"]["feels_like"], day["main"]["temp_min"], day["main"]["temp_max"], day["main"]["humidity"], day["weather"][0]["icon"], day["weather"][0]["description"],day["clouds"]["all"], day["pop"]);
-        }
-        
+        }        
     }
 
     toFavoris(){
