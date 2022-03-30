@@ -106,6 +106,8 @@
         </div>
     </div>
 
+    <button type="button" id="testAdd" class="btn btn-secondary">TestAdd</button>
+    <button type="button" id="testGet" class="btn btn-secondary">TestGet</button>
     <script>
 
         let meteo = null;
@@ -135,6 +137,13 @@
             console.log(meteo);
         }
 
+        document.getElementById("testAdd").onclick = async function(){
+            await addNewFav(meteo.toFavoris());
+        }
+
+        document.getElementById("testGet").onclick = async function(){
+            await getFavoris();
+        }
     </script>
 
     <!-- Jquery -->
