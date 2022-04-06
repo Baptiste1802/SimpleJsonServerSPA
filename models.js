@@ -2,13 +2,17 @@ class Meteo {
 
     /**
      * @param {String} city 
+     * @param {id} id si favoris
     */
-    constructor(city){
+    constructor(city, id){
+        this.id = id;
         this.city = city;
         this.forecasts = {}; // {day1 : {hour, temp, ...}, day2 : {hour, temp, ...}}
     }
 
-    getIcon(){return `http://openweathermap.org/img/wn/${this.icon}@2x.png`}
+    getId(){return this.id;}
+
+    getIcon(){return `http://openweathermap.org/img/wn/${this.icon}@2x.png`;}
 
     getCity(){return this.city;}
 
@@ -27,6 +31,8 @@ class Meteo {
     getClouds(){return this.clouds;}
 
     getPressure(){return this.pressure;}
+
+    setId(id){this.id = id;}
 
     /**
      * add a forecast to this.forecasts
@@ -105,13 +111,13 @@ class Meteo {
     }
 
     toFavoris(){
-        return new Favoris(this.city);
+        return new Favoris(this.city, document.getElementById("desc").value);
     }
 
     toJson(){
         let object = {
             "city" : this.city,
-            "description" : ""
+            "description" : document.getElementById("desc").value
         };
         return JSON.stringify(object);
     }
