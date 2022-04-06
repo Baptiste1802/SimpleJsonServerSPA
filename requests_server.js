@@ -43,6 +43,42 @@ async function getAllFavoris(){
 }
 
 
+async function isFavorite(cityName){
+    let data = await getAllFavoris();
+    if(data){
+        for (json of data){
+            console.log(json["city"]);
+            if (json["city"] == cityName){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+async function modifyFav(meteo){
+    const settings = {
+        method : "PUT",
+        headers : {
+            "Accept" : "application/json",
+            "Content-Type" : "application/json",
+        },
+        body : meteo.toJson()
+    };
+
+    const response = await fetch(`http://localhost:3000/favoris/${meteo.getId()}`,settings);
+    if(response.ok){
+        const data = await response.json();
+        return data;
+    }
+    else{
+        const data = await response.json();
+        console.log(data["message"]);
+    }
+}
+
+
 async function searchFav(query){
 
     const settings = {

@@ -124,9 +124,15 @@
         }
 
         document.getElementById("add").onclick = async function(){
-            await addNewFav(meteo);
-            favoris = meteo.toFavoris();
-            document.getElementById("get").click();
+            if (meteo != null){
+                let isNew = await isFavorite(meteo.getCity());
+                if (!isNew){
+                    await addNewFav(meteo);
+                } else {
+                    await modifyFav(meteo);
+                }
+                document.getElementById("get").click();
+            }
         }
 
         document.getElementById("get").onclick = async function(){
@@ -162,7 +168,7 @@
                 meteo.setId(0);
             }
             else{
-                console.log("la météo n'est pas dans les favoris")
+                console.log("la météo n'est pas dans les favoris / n'a pas été actualisée")
             }
         }
 
