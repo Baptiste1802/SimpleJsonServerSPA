@@ -190,6 +190,7 @@
                 let favoris = new Favoris(json["city"], json["description"], json["id"]);
                 favoris.addToSideBar(sideBar);
             }
+            document.getElementById("searchValue").value = "";
         }
 
         async function showFav(id){
