@@ -12,8 +12,8 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mt-2 mb-2" aria-label="Eleventh navbar example">
-        <div class="container-fluid ml-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-2" aria-label="Eleventh navbar example">
+        <div class="container-fluid ml-2 ">
             <a class="navbar-brand h1">Open Meteo</a>
             <form class="d-flex">
                 <input style="margin-right: 7px" class="form-control" type="text" placeholder="Indiquez une ville" aria-label="Search" id="city">
@@ -24,7 +24,7 @@
 
     <div class="container-fluid d-flex">
         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
-            <div class="d-flex align-items-center flex-shrink-0 p-3">
+            <div class="d-flex align-items-center flex-shrink-0 p-3 border-bottom">
                 <div class="d-flex">
                     <input id="searchValue" class="form-control w-50 mr-1" style="margin-right: 7px" type="text" placeholder="Recherchez une ville" aria-label="Search" id="city">
                     <button type="button" id="search" class="btn btn-primary">Rechercher</button>
@@ -35,6 +35,16 @@
         </div>
     
         <div class="container">
+            <div class="d-flex p-3 justify-content-around">
+                <div class="input-group-md mr-3">
+                    <input id="desc" class="form-control" style="margin-right: 7px" type="text" placeholder="Description" aria-label="Search" id="city">
+                </div>
+                <div>
+                    <button type="button" id="get" class="btn btn-primary">Actualiser</button>
+                    <button type="button" id="add" class="btn btn-primary">Ajouter</button>
+                    <button type="button" id="delete" class="btn btn-primary">Supprimer</button>
+                </div>
+            </div>
             <div>
                 <div class="d-flex justify-content-center align-items-center">
                     <p id="cityName" class="display-4">OpenMeteo</p>
@@ -81,15 +91,12 @@
         </div>
     </div>
 
-    <button type="button" id="testAdd" class="btn btn-secondary">TestAdd</button>
-    <button type="button" id="testGet" class="btn btn-secondary">TestGet</button>
-    <button type="button" id="testGetFav" class="btn btn-secondary">TestGetFav</button>
-    <button type="button" id="suppFav" class="btn btn-secondary">SuppFav</button>
     <script>
 
         let meteo = null;
         
-        async function updateMeteo(cityName){
+        async function updateMeteo(cityName, desc){
+            document.getElementById("desc").value = desc;
             meteo = new Meteo(cityName);
             const meteoData = await fetchMeteo(cityName);
             const forecastsData = await fetchForecasts(cityName);
@@ -114,21 +121,40 @@
             console.log(meteo);
         }
 
-        document.getElementById("testAdd").onclick = async function(){
+        document.getElementById("add").onclick = async function(){
             await addNewFav(meteo);
         }
 
-        document.getElementById("testGet").onclick = async function(){
-            await getAllFavoris();
+        document.getElementById("get").onclick = async function(){
+            let sideBar = document.getElementById("sideBarItems");
+            sideBar.innerHTML = "";
+            let data = await getAllFavoris();
+            for (json of data){
+                let favoris = new Favoris(json["city"], json["description"], json["id"]);
+                favoris.addToSideBar(sideBar);
+            }
         }
 
         document.getElementById("search").onclick = async function(){
-            await searchFav(document.getElementById("searchValue").value);
+            let sideBar = document.getElementById("sideBarItems");
+            sideBar.innerHTML = "";
+            let data = await searchFav(document.getElementById("searchValue").value);
+            for (json of data){
+                let favoris = new Favoris(json["city"], json["description"], json["id"]);
+                favoris.addToSideBar(sideBar);
+            }
         }
 
-        document.getElementById("testGetFav").onclick = async function(){
+        async function showFav(id){
+            // on pourrait juste passer par les attributs de classe mais l'exercice est d'utiliser les requêtes HTTP et json server
+            data = await getFavoris(id);
+            updateMeteo(data["city"], data["description"]);
+        }
+
+        document.getElementsByClassName("").onclick = async function(){
             await getFavoris("2");
         }
+
     </script>
     <!-- Jquery -->
     

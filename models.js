@@ -177,12 +177,13 @@ class Favoris{
         return JSON.stringify(object);
     }
 
-    addToSideBar(sideBarId){
-        let sideBar = document.getElementById(sideBarId);
+    addToSideBar(sideBar){
 
         let button = document.createElement("button");
-        button.setAttribute("id", this.city);
-        button.onclick(search(this.id));
+        button.setAttribute("id", this.id);
+        button.onclick = function(){
+            showFav(this.id);
+        }
         // a.setAttribute('href', '#');
         let classes = ["list-group-item", "list-group-item-action", "py-3", "lh-tight"];
         button.classList.add(...classes);
@@ -205,10 +206,9 @@ class Favoris{
         divDesc.textContent = this.description;
 
         divTitle.appendChild(city);
-        divDesc.ap
 
         button.appendChild(divTitle);
-        button.appendChild(divDesc)
+        button.appendChild(divDesc);
         button.appendChild(id);
 
         sideBar.appendChild(button);

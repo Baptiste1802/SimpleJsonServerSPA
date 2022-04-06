@@ -34,10 +34,7 @@ async function getAllFavoris(){
     const response = await fetch("http://localhost:3000/favoris",settings);
     if(response.ok){
         const data = await response.json();
-        for (json of data){
-            let favoris = new Favoris(json["city"], json["description"], json["id"]);
-            favoris.addToSideBar("sideBarItems", "sideBarItemTemplate");
-        }
+        return data;
     }
     else{
         const data = await response.json();
@@ -107,6 +104,5 @@ async function suppFavoris(id){
     if(!response.ok){
         const data = await response.json();
         console.log(data);
-        return data;
     }
 }
