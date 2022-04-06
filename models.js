@@ -180,11 +180,12 @@ class Favoris{
     addToSideBar(sideBarId){
         let sideBar = document.getElementById(sideBarId);
 
-        let a = document.createElement("a");
-        a.setAttribute("id", this.city);
-        a.setAttribute('href', '#');
+        let button = document.createElement("button");
+        button.setAttribute("id", this.city);
+        button.onclick(search(this.id));
+        // a.setAttribute('href', '#');
         let classes = ["list-group-item", "list-group-item-action", "py-3", "lh-tight"];
-        a.classList.add(...classes);
+        button.classList.add(...classes);
 
         let divTitle = document.createElement("div");
         classes = ["d-flex", "w-100", "align-items-center", "justify-content-between"];
@@ -206,11 +207,11 @@ class Favoris{
         divTitle.appendChild(city);
         divDesc.ap
 
-        a.appendChild(divTitle);
-        a.appendChild(divDesc)
-        a.appendChild(id);
+        button.appendChild(divTitle);
+        button.appendChild(divDesc)
+        button.appendChild(id);
 
-        sideBar.appendChild(a);
+        sideBar.appendChild(button);
     }
 
 
