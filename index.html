@@ -152,6 +152,7 @@
 
         document.getElementById("fetchMeteo").onclick = async function(){
             await updateMeteo(document.getElementById("city").value);
+            document.getElementById("city").value = "";
         }
 
         document.getElementById("add").onclick = async function(){
