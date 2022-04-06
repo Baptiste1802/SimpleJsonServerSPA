@@ -32,6 +32,10 @@
             </div>
             <div class="list-group list-group-flush border-bottom scrollarea" id = "sideBarItems">
             </div>
+            <nav class="mt-3">
+                <ul id="pagination" class="pagination justify-content-center">
+                </ul>
+            </nav>
         </div>
     
         <div class="container">
@@ -96,6 +100,34 @@
     <script>
 
         let meteo = null;
+
+        async function updatePagination(){
+            let nbFavoris = await getNbFavoris();
+            let pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            for (let i = 0; i < (Math.floor(nbFavoris/8) + 1); i++){
+                let li = document.createElement("li");
+                li.classList.add("page-item");
+                let button = document.createElement("button");
+                button.innerHTML = i+1;
+                button.classList.add("page-link");
+                button.onclick = function(){
+                    getPagination(i+1);
+                }
+                li.appendChild(button);
+                pagination.appendChild(li);
+            }
+        }
+
+        async function getPagination(numPage){
+            let sideBar = document.getElementById("sideBarItems");
+            sideBar.innerHTML = "";
+            let data = await getAllFavorisPaginate(numPage);
+            for (json of data){
+                let favoris = new Favoris(json["city"], json["description"], json["id"]);
+                favoris.addToSideBar(sideBar);
+            }
+        }
         
         async function updateMeteo(cityName, desc="", id=0){
             document.getElementById("desc").value = desc;
@@ -120,7 +152,6 @@
 
         document.getElementById("fetchMeteo").onclick = async function(){
             await updateMeteo(document.getElementById("city").value);
-            console.log(meteo);
         }
 
         document.getElementById("add").onclick = async function(){
@@ -128,17 +159,23 @@
                 let isNew = await isFavorite(meteo.getCity());
                 if (!isNew){
                     await addNewFav(meteo);
+                    let nbFavoris = await getNbFavoris();
+                    getPagination((Math.floor(nbFavoris/8) + 1));
+                    updatePagination();
                 } else {
-                    await modifyFav(meteo);
+                    if (meteo.getId() != 0){
+                        await modifyFav(meteo);
+                        document.getElementById("get").click();
+                    }
                 }
-                document.getElementById("get").click();
             }
         }
 
         document.getElementById("get").onclick = async function(){
             let sideBar = document.getElementById("sideBarItems");
             sideBar.innerHTML = "";
-            let data = await getAllFavoris();
+            let data = await getAllFavorisPaginate(1);
+            updatePagination();
             for (json of data){
                 let favoris = new Favoris(json["city"], json["description"], json["id"]);
                 favoris.addToSideBar(sideBar);

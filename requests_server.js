@@ -47,7 +47,6 @@ async function isFavorite(cityName){
     let data = await getAllFavoris();
     if(data){
         for (json of data){
-            console.log(json["city"]);
             if (json["city"] == cityName){
                 return true;
             }
@@ -78,6 +77,35 @@ async function modifyFav(meteo){
     }
 }
 
+async function getAllFavorisPaginate(page){
+    const settings = {
+        method : "GET",
+        headers : {
+            "Accept": "application/json",
+            "Content-Type" : "application/json",
+        }
+    };
+
+    const response = await fetch(`http://localhost:3000/favoris?_page=${page}&_limit=8`,settings);
+    if(response.ok){
+        const data = await response.json();
+        return data;
+    }
+    else{
+        const data = await response.json();
+        console.log(data["message"]);
+    }
+
+
+}
+
+async function getNbFavoris(){
+    let data = await getAllFavoris();
+    if (data){
+        return Object.keys(data).length;
+    }
+}
+
 
 async function searchFav(query){
 
@@ -92,7 +120,6 @@ async function searchFav(query){
     const response = await fetch(`http://localhost:3000/favoris?city_like=${query}`,settings);
     if(response.ok){
         const data = await response.json();
-        console.log(data);
         return data;
     }
     else{
