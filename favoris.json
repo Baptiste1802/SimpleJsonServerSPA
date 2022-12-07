@@ -1,0 +1,14 @@
+{
+  "favoris": [
+    {
+      "city": "Tours",
+      "description": "ville magnifique",
+      "id": 7
+    },
+    {
+      "city": "Dunkerque",
+      "description": "Ville de raphael",
+      "id": 8
+    }
+  ]
+}
